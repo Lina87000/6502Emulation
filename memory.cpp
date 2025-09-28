@@ -121,6 +121,50 @@ void Memory::writeIO16(uint16_t addr, uint16_t value) {
     }
 }
 
- uint16_t Memory::readReset() {
+uint16_t Memory::readReset() {
     return readM(RESET_ADDR);
  }
+
+uint8_t Memory::read(uint16_t addr) {
+    if (addr >= RAM_START && addr <= RAM_END)
+        return readRAM(addr);
+    else if (addr >= ROM_START && addr <= ROM_END)
+        return readROM(addr);
+    else if (addr >= IO_START && addr <= IO_END)
+        return readIO(addr);
+    else
+        return 0xFF;
+}
+
+uint16_t Memory::read16(uint16_t addr) {
+    if (addr >= RAM_START && addr <= RAM_END)
+        return readRAM16(addr);
+    else if (addr >= ROM_START && addr <= ROM_END)
+        return readROM16(addr);
+    else if (addr >= IO_START && addr <= IO_END)
+        return readIO16(addr);
+    else
+        return 0xFFFF;
+}
+
+void Memory::write(uint16_t addr, uint8_t value) {
+    if (addr >= RAM_START && addr <= RAM_END)
+        writeRAM(addr, value);
+    else if (addr >= ROM_START && addr <= ROM_END)
+        std::cout << "Illegal writting region !\n";
+    else if (addr >= IO_START && addr <= IO_END)
+        writeIO(addr, value);
+    else
+        return;
+}
+
+void Memory::write16(uint16_t addr, uint16_t value) {
+    if (addr >= RAM_START && addr <= RAM_END)
+        writeRAM16(addr, value);
+    else if (addr >= ROM_START && addr <= ROM_END)
+        std::cout << "Illegal writting region !\n";
+    else if (addr >= IO_START && addr <= IO_END)
+        writeIO16(addr, value);
+    else
+        return;
+}
